@@ -41,13 +41,18 @@ public class PolovnikWebhookBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        final var quoteSummaryResponse = restTemplate.getForObject(String.format(URL, update.getMessage().getText()), YahooResponse.class);
-        final var replyToUserList = quoteSummaryResponse.getQuoteSummary().getResult().stream()
-                .map(this::collectReply)
-                .collect(Collectors.toList());
-        final var reply = new SendMessage()
-                .setChatId(update.getMessage().getChatId())
-                .setText(replyToUserList.toString());
+        SendMessage reply = new SendMessage()
+                .setChatId(update.getMessage().getChatId());
+        try {
+            final var quoteSummaryResponse = restTemplate.getForObject(String.format(URL, update.getMessage().getText()), YahooResponse.class);
+            final var replyToUserList = quoteSummaryResponse.getQuoteSummary().getResult().stream()
+                    .map(this::collectReply)
+                    .collect(Collectors.toList());
+            reply.setText(replyToUserList.toString());
+        } catch (Exception e) {
+            reply.setText("Wrong ticket, try again please");
+        }
+
         return reply;
     }
 
