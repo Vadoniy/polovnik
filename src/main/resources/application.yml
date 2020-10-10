@@ -1,7 +1,8 @@
 telegrambot:
   user-name: "@MyFirstPolovnikBot"
   bot-token: 1284777653:AAEYzwhUUvPQgVRIBzkfpmIzvZwlt4pSdC4
-  webhook-path: https://3a3499aab798.ngrok.io
+#  webhook-path: https://3a3499aab798.ngrok.io
+  webhook-path: https://polovnik-bot.herokuapp.com/
 
 server:
   port: 5000
